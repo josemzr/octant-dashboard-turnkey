@@ -1,57 +1,3 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  annotations:
-    rbac.authorization.kubernetes.io/autoupdate: "true"
-  labels:
-  name: octant-admin-role-everything
-rules:
-{{- if .Values.clusterRole.rules }}
-{{- with .Values.clusterRole.rules }}
-{{ toYaml . | indent 2 }}
-{{- end }}
-{{- else }}
-  - apiGroups:
-      - ""
-      - apps
-      - autoscaling
-      - batch
-      - extensions
-      - policy
-      - rbac.authorization.k8s.io
-    # Everything except secrets
-    resources:
-      - componentstatuses
-      - configmaps
-      - daemonsets
-      - deployments
-      - events
-      - endpoints
-      - horizontalpodautoscalers
-      - ingress
-      - jobs
-      - limitranges
-      - namespaces
-      - nodes
-      - pods
-      - secrets
-      - persistentvolumes
-      - persistentvolumeclaims
-      - resourcequotas
-      - replicasets
-      - replicationcontrollers
-      - serviceaccounts
-      - services
-    verbs: ["*"]
-  - nonResourceURLs: ["*"]
-    verbs: ["*"]
-{{- with .Values.clusterRole.additionalRules }}
-{{ toYaml . | indent 2 }}
-{{- end }}
-{{- end }}
-
----
-
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -62,5 +8,5 @@ subjects:
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: octant-admin-role-everything
+  name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
