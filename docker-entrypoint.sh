@@ -21,12 +21,12 @@ clusters:
     certificate-authority-data: ${ca}
     server: ${server}
 contexts:
-- name: readonly-context
+- name: local-cluster-admin
   context:
     cluster: k8s-on-premise
     namespace: ${namespace}
     user: octant-sa
-current-context: readonly-context
+current-context: local-cluster-admin
 users:
 - name: octant-sa
   user:
