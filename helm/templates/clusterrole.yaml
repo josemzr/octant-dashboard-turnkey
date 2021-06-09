@@ -4,7 +4,7 @@ metadata:
   annotations:
     rbac.authorization.kubernetes.io/autoupdate: "true"
   labels:
-  name: octant-readonly-everything
+  name: octant-admin-role-everything
 rules:
 {{- if .Values.clusterRole.rules }}
 {{- with .Values.clusterRole.rules }}
@@ -13,32 +13,38 @@ rules:
 {{- else }}
   - apiGroups:
       - ""
-    resources: ["*"]
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - extensions
-    resources: ["*"]
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - apiextensions.k8s.io
-    resources: ["*"]
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
       - apps
-    resources: ["*"]
-    verbs:
-      - get
-      - list
-      - watch
+      - autoscaling
+      - batch
+      - extensions
+      - policy
+      - rbac.authorization.k8s.io
+    # Everything except secrets
+    resources:
+      - componentstatuses
+      - configmaps
+      - daemonsets
+      - deployments
+      - events
+      - endpoints
+      - horizontalpodautoscalers
+      - ingress
+      - jobs
+      - limitranges
+      - namespaces
+      - nodes
+      - pods
+      - secrets
+      - persistentvolumes
+      - persistentvolumeclaims
+      - resourcequotas
+      - replicasets
+      - replicationcontrollers
+      - serviceaccounts
+      - services
+    verbs: ["*"]
+  - nonResourceURLs: ["*"]
+    verbs: ["*"]
 {{- with .Values.clusterRole.additionalRules }}
 {{ toYaml . | indent 2 }}
 {{- end }}
@@ -56,5 +62,5 @@ subjects:
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: octant-readonly-everything
+  name: octant-admin-role-everything
   apiGroup: rbac.authorization.k8s.io
