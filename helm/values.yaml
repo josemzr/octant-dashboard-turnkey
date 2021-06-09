@@ -1,7 +1,7 @@
 replicas: 2
 
 image:
-  fullname: aleveille/octant-dashboard:v0.18.0
+  fullname: projects.registry.vmware.com/tanzu_ese_poc/octant-dashboard:v0.18.0
   pullPolicy: IfNotPresent
 
 keycloakGatekeeper:
