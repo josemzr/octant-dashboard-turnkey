@@ -1,4 +1,4 @@
-replicas: 1
+replicas: 2
 
 image:
   fullname: aleveille/octant-dashboard:v0.18.0
@@ -46,7 +46,7 @@ fullnameOverride: ""
 serviceAccount:
   create: true
   annotations: {}
-  name: octant-readonly-sa
+  name: octant-cluster-admin-sa
 
 clusterRole:
   # Override the entire set of cluster roles, if not specified a default set of read-only-everything rules will be created
